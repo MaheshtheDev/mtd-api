@@ -1,6 +1,7 @@
 import type { NextApiRequest } from "next";
+import { withSentry } from "@sentry/nextjs";
 
-export default async function handler(req: NextApiRequest) {
+async function handler(req: NextApiRequest) {
   if (req.method == "GET") {
     return new Response(JSON.stringify(2), {
       status: 200,
@@ -10,4 +11,9 @@ export default async function handler(req: NextApiRequest) {
       },
     });
   }
+  else {
+    throw new Error("Only GET method is allowed");
+  }
 }
+
+export default withSentry(handler);
